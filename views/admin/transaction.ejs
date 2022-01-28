@@ -1,0 +1,131 @@
+    <%- include('partials/header.ejs') %>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <%- include('partials/navbar.ejs') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Transactions Page</h1>
+                    </div>
+
+                    <!-- Content -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Produk</th>
+                                <th>Nama User</th>
+                                <th>QTY</th>
+                                <th>Total Harga</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < data.length; i++) { %>
+                                <tr>
+                                    <td><%= i+1 %></td>
+                                    <td><%= data[i].product.dataValues.product_name %></td>
+                                    <td><%= data[i].customer_name %></td>
+                                    <td><%= data[i].qty %></td>
+                                    <td><%= data[i].total_price %></td>
+                                    <td>
+                                        <% if(data[i].status == 'Pending') { %>
+                                            <span class="badge badge-warning">Pending</span>
+                                        <% } else if (data[i].status === 'Success') { %>
+                                            <span class="badge badge-success">Success</span>
+                                        <% } else { %>
+                                            <span class="badge badge-danger">Failed</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-warning" data-toggle="modal" data-target="<%= `#updateTransaction${data[i].id}` %>">Update</a> 
+                                    </td>
+                                </tr>    
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <!-- End of Content -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Acakoy Factory 2022</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Update Modal -->
+    <% for(let i = 0; i < data.length; i++) { %>
+    <div class="modal fade" id="<%= `updateTransaction${data[i].id}` %>" tabindex="-1" role="dialog" aria-labelledby="<%= `exampleUpdateTransaction${data[i].id}` %>" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin/transactions/<%= data[i].id %>" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="<%= `exampleUpdateTransaction${data[i].id}` %>">Ubah Data Transaksi #A123</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="idTransaction" value="idTransaction">
+
+                        <div class="form-group">
+                            <label for="product_id">Nama Produk</label>
+                            <input type="text" class="form-control" id="product_id" name="product_id" value="<%= data[i].product.dataValues.product_name %>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_name">Nama User</label>
+                            <input type="text" class="form-control" id="customer_name" name="customer_name" value="<%= data[i].customer_name %>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="qty">QTY</label>
+                            <input type="number" class="form-control" id="qty" name="qty" value="<%= data[i].qty %>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status Pesanan</label>
+                            <select class="form-control form-control-sm" id="status" name="status">
+                                <option value="Success">Success</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Failed">Failed</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ubah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <%- include('partials/footer.ejs') %>

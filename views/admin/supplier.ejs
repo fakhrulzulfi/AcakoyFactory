@@ -1,0 +1,142 @@
+
+
+    <%- include('partials/header.ejs')%>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <%- include('partials/navbar.ejs')%>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Suppliers Page</h1>
+                        <a href="#tambah" class="btn btn-success float-right" data-toggle="modal" data-target="#addSupplier">Tambah Supplier</a>
+                    </div>
+
+                    <!-- Content -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= data[i].name %></td>
+                                <td><%= data[i].address %></td>
+                                <td>
+                                    <a href="#update" class="btn btn-sm btn-warning" data-toggle="modal" data-target="<%= `#updateSupplier${data[i].id}` %>">Update</a> 
+                                    |
+                                    <a href="/admin/suppliers/<%= data[i].id %>/delete" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <!-- End of Content -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Acakoy Factory 2022</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Update Modal -->
+    <% for(let i = 0; i < data.length; i++) { %>
+    <div class="modal fade" id="<%= `updateSupplier${data[i].id}` %>" tabindex="-1" role="dialog" aria-labelledby="<%= `updateSupplier${data[i].id}` %>" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin/suppliers/<%= data[i].id %>" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="<%= `updateSupplier${data[i].id}` %>">Ubah Data Supplier</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Nama Supplier</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= data[i].name %>" >
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Alamat Supplier</label>
+                            <input type="text" class="form-control" id="address" name="address" value="<%= data[i].address %>" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ubah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <!-- End for Update Modal -->
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addSupplier" tabindex="-1" role="dialog" aria-labelledby="exampleaddSupplier"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin/suppliers" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleaddSupplier">Tambah Supplier</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Nama Supplier</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama supplier..." required >
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Alamat Supplier</label>
+                            <input type="text" class="form-control" id="address" name="address" value="Alamat..." required >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End for Add Modal -->
+
+    <%- include('partials/footer.ejs')%>
+    
