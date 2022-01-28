@@ -3,6 +3,7 @@ Teknologi yang digunakan :
 2. Template EJS
 3. ORM Sequelize
 4. MySQL
+5. SB-Admin template
 
 Cara menjalankan server :
 1. Pastikan telah menginstall NodeJS dan NPM
